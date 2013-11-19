@@ -1,0 +1,102 @@
+package uci.ioio;
+
+import ioio.lib.util.IOIOLooper;
+import ioio.lib.util.IOIOLooperProvider;
+import ioio.lib.util.android.IOIOAndroidApplicationHelper;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+// I've copied what was in IOIOActivity to this "normal" activity (this would be your openCV activity I guess)
+public class Main_activity extends Activity implements IOIOLooperProvider 		// implements IOIOLooperProvider: from IOIOActivity
+{
+	private final IOIOAndroidApplicationHelper helper_ = new IOIOAndroidApplicationHelper(this, this);			// from IOIOActivity
+	
+	private TextView textView_;
+	SeekBar seekBar_;
+	ToggleButton toggleButton_;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) 
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);	
+		helper_.create();											 // from IOIOActivity
+
+        textView_ = (TextView)findViewById(R.id.TextView);
+        seekBar_ = (SeekBar)findViewById(R.id.SeekBar);
+        toggleButton_ = (ToggleButton)findViewById(R.id.ToggleButton);
+
+        enableUi(false);
+    }
+
+	public void enableUi(final boolean enable) 
+	{
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				seekBar_.setEnabled(enable);
+				toggleButton_.setEnabled(enable);
+			}
+		});
+	}
+	
+	public void setText(final String str) 
+	{
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				textView_.setText(str);
+			}
+		});
+	}
+	
+	/****************************************************** functions from IOIOActivity *********************************************************************************/
+	
+	protected IOIOLooper createIOIOLooper() 
+	{
+		return new IOIO_thread(this);				//  !!!!!!!!!!!!!!!!!   create our own IOIO thread (Looper) with a reference to this activity
+	}
+	
+	@Override
+	public IOIOLooper createIOIOLooper(String connectionType, Object extra) 
+	{
+		return createIOIOLooper();
+	}
+	
+	@Override
+	protected void onDestroy() 
+	{
+		helper_.destroy();
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onStart() 
+	{
+		super.onStart();
+		helper_.start();
+	}
+
+	@Override
+	protected void onStop() 
+	{
+		helper_.stop();
+		super.onStop();
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) 
+	{
+		super.onNewIntent(intent);
+		if ((intent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK) != 0) 
+		{
+			helper_.restart();
+		}
+	}
+	
+}
