@@ -11,6 +11,9 @@ Good example to see how you can create a separate class file for the IOIO thread
 For more information, go to:
 http://www.socsci.uci.edu/~jkrichma/CARL/ABR_web/ABR.html
 
+If you have questions, go to:
+https://groups.google.com/forum/?hl=en#!forum/android-based-robotics
+
 
 Requirements
 ------------
