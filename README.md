@@ -9,7 +9,7 @@ Use this app to control a servo or motor (PWM output) with a slider, read and di
 Good example to see how you can create a separate class file for the IOIO thread.
 
 For more information, go to:
-http://www.socsci.uci.edu/~jkrichma/CARL/ABR_web/ABR.html
+http://www.socsci.uci.edu/~jkrichma/ABR/index.html
 
 If you have questions, go to:
 https://groups.google.com/forum/?hl=en#!forum/android-based-robotics
